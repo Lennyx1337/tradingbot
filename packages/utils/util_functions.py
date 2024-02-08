@@ -6,12 +6,11 @@ def calculate_fibonacci_retracement(low_price: int, high_price: int)-> list:
 
 
 def calculate_ema(prices: list, window: int)->list:
-    ema_values = []
+    ema_values = [prices[0]]
     smoothing_factor = 2/(window + 1) #Berechnung des Glättungsfaktors window bestimmt, welche EMA man möchte z.B. 200er
-    ema_values[0] = prices[0]
 
     for i in range(1, len(prices)):
-        ema = (prices[i] - ema_values[-1]) * (smoothing_factor + ema_values[-1])
+        ema = (prices[i] - ema_values[-1]) * smoothing_factor + ema_values[-1]
         ema_values.append(ema)
     
     return ema_values
