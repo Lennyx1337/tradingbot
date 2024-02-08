@@ -39,7 +39,8 @@ def st_momentum_and_tsl_strategy(df, entry, dist):
                 in_position = False
         
     filename = input("Bitte geben Sie den Dateinamen für die PNG-Datei ein: ")
-    folder_path="./graphs"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    folder_path= os.path.join(script_dir, "graphs")
 
     plt.figure(figsize=(10, 6))
     plt.plot((pd.Series(profits)+1).cumprod())
@@ -47,7 +48,7 @@ def st_momentum_and_tsl_strategy(df, entry, dist):
     plt.ylabel('Profit')
     plt.title('Profit from Trades') 
     plt.grid(True)
-    plt.savefig(os.path.join(folder_path,f'{filename}.png'))
+    plt.savefig(os.path.join(folder_path,f'{filename}'))
     return plt.show()
 
-st_momentum_and_tsl_strategy(df,0.02,0.99)
+st_momentum_and_tsl_strategy(df,0.03,0.99)
