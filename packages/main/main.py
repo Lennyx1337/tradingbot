@@ -1,10 +1,10 @@
 import sys
-sys.path.append('Z:/Python_Projekte/tradingbot/packages')
+sys.path.append('C:/Users/lenna/LokaleDaten/applied_project/tradingbot/packages')
 
 from utils import util_functions
 
 # Beispielwerte für die Indikatoren
-prices = [100, 110, 120, 115, 125, 130, 135]
+prices = [100, 110, 120, 115, 125, 130, 135, 120, 110, 105, 100]
 low_price = 100
 high_price = 135
 short_ema_window = 5
