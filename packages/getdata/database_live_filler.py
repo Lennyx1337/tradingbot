@@ -30,8 +30,6 @@ def on_message(ws, message):
             low_price = float(data['l'])
             close_price = float(data['c'])
             volume = float(data['v'])
-            print()
-            # ERROR HAS TO BE FIXED SOON: 
             with engine.connect() as conn:
                 sql_statement = text('''
                     INSERT INTO "BTCUSDT" ("Time", "Open", "High", "Low", "Close", "Volume") 
