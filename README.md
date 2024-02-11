@@ -4,11 +4,11 @@
 This project, initiated by Lennart Möller (Developer and UX Designer) and Robert Koch (Project Manager and Requirements Engineer), aims to develop an automated crypto trading bot capable of profiting from both rising and falling prices.
 
 # Features
-Simple desktop application interface.
-User-friendly button selection for risk level and strategy.
-Customizable indicator settings.
-Real-time dashboard for trade monitoring.
-Push notifications for timely updates.
+- Simple desktop application interface.
+- User-friendly button selection for risk level and strategy.
+- Customizable indicator settings.
+- Real-time dashboard for trade monitoring.
+- Push notifications for timely updates.
 
 # Project Structure
 The project's structure involves collaboration across hybrid roles, emphasizing the importance of clear role allocation from the outset. It combines software modeling with a proposed business model for potential revenue generation.
