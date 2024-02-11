@@ -13,8 +13,9 @@ def getdata(symbol, start):
     
     frame = frame.iloc[:,:6]
     frame.columns = ['Time', 'Open', 'High', 'Low', 'Close', 'Volume']
+    frame['Time'] = pd.to_datetime(frame['Time'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Berlin')
     frame.set_index = pd.to_datetime(frame.index, unit = 'ms')
-    frame = frame.astype(float)
+    frame = frame.astype({'Open': float, 'High': float, 'Low': float, 'Close': float, 'Volume': float})
     return frame 
 
 print(getdata('BTCUSDT', '2024-02-09'))

@@ -1,6 +1,7 @@
 import websocket
 import json
 import pandas as pd
+from time import sleep
 
 endpoint = 'wss://stream.binance.com:9443/ws/btcusdt@miniTicker'
 our_msg = json.dumps({'method': 'SUBSCRIBE', 'params': ['btcusdt@ticker'], 'id': 1})
@@ -16,7 +17,8 @@ def on_message(ws, message):
     global df, in_position, buy_orders, sell_orders
     data = json.loads(message)
     if 's' in data and data['s'] == 'BTCUSDT':
-        data = pd.DataFrame({'price':float(data['c'])}, index=[pd.to_datetime(data['E'], unit='ms')])
+        df['Time'] = pd.to_datetime(data['E'], unit='ms')
+        data = pd.DataFrame({'price':float(data['c'])}, index=[pd.to_datetime(data['E'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Berlin')])
         df = pd.concat([df, data], axis=0)
         print(df)
         df = df.tail(5)
