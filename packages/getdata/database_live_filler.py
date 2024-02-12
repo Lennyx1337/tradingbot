@@ -46,8 +46,7 @@ def on_message(ws, message):
                 }
                 conn.execute(sql_statement, insert_data)
                 conn.commit()
-                print(pd.read_sql('SELECT Time, High, Low FROM BTCUSDT', engine))
-                print("BTCUSDT updated...")
+                print(f"BTCUSDT updated...{timestamp}")
 
 def on_error(ws, error):
     print(f"Fehler: {error}")

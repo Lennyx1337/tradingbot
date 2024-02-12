@@ -1,3 +1,8 @@
+import pandas as pd
+from sqlalchemy import create_engine
+
+engine = create_engine('sqlite:///Z:/Python_Projekte/tradingbot/packages/getdata/tradingbot.db')
+
 def calculate_fibonacci_retracement(low_price: int, high_price: int)-> list:
     fib_levels = [0.382, 0.500, 0.618]
     price_movement = high_price - low_price
@@ -16,7 +21,7 @@ def calculate_ema(prices: list, window: int)->list:
     return ema_values
 
 
-def calculate_macd(prices: list, short_ema_window: int, long_ema_window: int, return_value: str)->list:
+def calculate_macd(prices: list, short_ema_window: int, long_ema_window: int)->list:
     short_ema = calculate_ema(prices, short_ema_window)
     long_ema = calculate_ema(prices, long_ema_window)
     macd_line = [short - long for short, long in zip(short_ema, long_ema)]
@@ -32,11 +37,12 @@ def calculate_signals(macd_line: list, signal_line: list)-> list:
     signals = []
     for i in range(len(macd_line)):
         if macd_line[i]>signal_line[i]:
-            signals.append("Kaufsignal")
+            signals.append("Buy")
         else:
-            signals.append("Verkaufssignal")
+            signals.append("Sell")
     return signals
-    
+
+   
 def calculate_rsi(prices:list, window_days: int = 14) -> list:
     gains = []
     losses = []
@@ -56,3 +62,11 @@ def calculate_rsi(prices:list, window_days: int = 14) -> list:
     rsi = 100 - (100 / (1+rs))
 
     return rsi
+
+
+def get_latest_data(num_rows: int)-> list[int]:
+    global engine
+    query = f"SELECT Close FROM BTCUSDT ORDER BY Time DESC LIMIT {num_rows}"
+    latest_data = pd.read_sql(query, engine)
+    prices = latest_data.values.flatten().astype(int).tolist()
+    return prices
