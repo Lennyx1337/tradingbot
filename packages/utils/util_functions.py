@@ -1,7 +1,8 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-engine = create_engine('sqlite:///Z:/Python_Projekte/tradingbot/packages/getdata/tradingbot.db')
+# engine = create_engine('sqlite:///Z:/Python_Projekte/tradingbot/packages/getdata/tradingbot.db')
+engine = create_engine('sqlite:///C:/Users/lenna/LokaleDaten/applied_project/tradingbot/packages/getdata/tradingbot.db')
 
 def calculate_fibonacci_retracement(low_price: int, high_price: int)-> list:
     fib_levels = [0.382, 0.500, 0.618]
