@@ -63,6 +63,10 @@
             margin-bottom: 10px;
             padding: 5px;
         }
+        #fibonacciResult {
+            color: white;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -104,7 +108,10 @@
             <input type="number" id="rsiMinutes" name="rsiMinutes"><br>
             <label for="rsiWindow">RSI Window:</label><br>
             <input type="number" id="rsiWindow" name="rsiWindow"><br>
-            <button onclick="calculateRSI()">Calculate RSI</button>
+            <button onclick="calculateRSI()">Calculate RSI</button><br>
+
+            <!-- Display the result of Fibonacci retracement -->
+            <div id="fibonacciResult"></div>
         </div>
         <div class="dashboard" id="dashboard">
             <!-- Paste your widget.html content here -->
@@ -164,18 +171,39 @@
 
         function calculateFibRetracement() {
             var minutes = document.getElementById('fibMinutes').value;
+            console.log('Sending POST request to server...');
             fetch('http://127.0.0.1:5000/tradingbot/main/fib', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ minutes: minutes })
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log(data);
-        })
-        .catch(error => console.error('Error:', error));
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ minutes: minutes })
+            })
+            .then(response => {
+                console.log('Response received from server:', response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received from server:', data);
+                var fibonacciLevels = data['Fibonacci Levels'];
+                if (!fibonacciLevels || fibonacciLevels.length === 0) {
+                    console.error('Fibonacci Levels not found or empty');
+                    return;
+                }
+                var fibonacciResult = document.getElementById('fibonacciResult');
+                fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
+                fibonacciLevels.forEach(level => {
+                    for (var key in level) {
+                        if (level.hasOwnProperty(key)) {
+                            fibonacciResult.innerHTML += key + ': ' + level[key] + '<br>';
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error:', error));
         }
 
         function calculateEMA() {

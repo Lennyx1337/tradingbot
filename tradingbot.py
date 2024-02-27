@@ -2,17 +2,14 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sys
 
-# Füge den Pfad zu deinen Paketen hinzu
 sys.path.append('C:/Users/lenna/LokaleDaten/applied_project/tradingbot/packages')
 sys.path.append('Z:/Python_Projekte/tradingbot/packages')
 
 app = Flask(__name__)
 CORS(app)
 
-# Handler für OPTIONS-Anfragen (CORS preflight)
 @app.route('/tradingbot/main/fib', methods=['OPTIONS'])
 def handle_options():
-    # Setze die CORS-Header
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST',
