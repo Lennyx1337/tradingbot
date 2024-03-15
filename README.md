@@ -18,5 +18,9 @@ Focus on software modeling while presenting a potential business model for the a
 # Contributing
 We welcome contributions and feedback from developers, designers, and project managers interested in enhancing the crypto trading bot project.
 
+# How to use it
+After download the few paths have to be changed for the use in the file of packages.
+After that the API-can be startet via the command: uvicorn main.py:app --host 0.0.0.0 --port 8000
+
 # License
 This project is licensed under the MIT License.
