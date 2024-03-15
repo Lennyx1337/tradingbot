@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
+from flask import jsonify
 import numpy as np
 
 engine = create_engine('sqlite:///Z:/Python_Projekte/tradingbot/packages/getdata/tradingbot.db')
@@ -19,15 +20,13 @@ def calculate_ema(prices: list, window: int)->list:
     for i in range(1, len(prices)):
         ema = (prices[i] - ema_values[-1]) * smoothing_factor + ema_values[-1]
         ema_values.append(ema)
-    
     return ema_values
 
 
 def calculate_macd(prices: list, short_ema_window: int, long_ema_window: int)->list:
     short_ema = calculate_ema(prices, short_ema_window)
     long_ema = calculate_ema(prices, long_ema_window)
-    macd_line = [short - long for short, long in zip(short_ema, long_ema)]
-
+    macd_line = jsonify([short - long for short, long in zip(short_ema, long_ema)])
     return macd_line
 
 
@@ -42,6 +41,7 @@ def calculate_signals(macd_line: list, signal_line: list)-> list:
             signals.append("Buy")
         else:
             signals.append("Sell")
+    signals = jsonify(signals)
     return signals
 
    
@@ -62,14 +62,18 @@ def calculate_rsi(prices:list, window_days: int = 14) -> list:
 
     rs = avg_gain / avg_loss if avg_loss != 0 else 0
     rsi = 100 - (100 / (1+rs))
+    rsi = str(rsi)
 
-    return rsi
+    return rsi 
 
 
 def get_latest_data(num_rows: int)-> list[int]:
     global engine
     query = f"SELECT Close FROM BTCUSDT ORDER BY Time DESC LIMIT {num_rows}"
     latest_data = pd.read_sql(query, engine)
-    prices = latest_data.values.flatten().astype(int).tolist()
+    prices = jsonify(latest_data.values.flatten().astype(int).tolist())
     return prices
 
+
+
+calculate_ema(prices=[500,422,399,212], window=14)
