@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot GUI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #051014; /* Hintergrundfarbe */
+        }
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            height: 100vh;
+        }
+        .navigation {
+            background-color: #231123; /* Hintergrundfarbe der Navbar */
+            padding: 20px;
+            border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+        }
+        .navigation h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white; /* Textfarbe für den Titel */
+        }
+        .navigation button {
+            background-color: transparent;
+            border: none;
+            padding: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: white; /* Textfarbe für die Buttons */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Hinzugefügter Schatten */
+            order: 1; /* Ändert die Reihenfolge der Button */
+        }
+        .navigation select {
+            margin-top: auto; /* Setzt die select-Box an das untere Ende der Navbar */
+            order: 2; /* Ändert die Reihenfolge der select-Box */
+        }
+        .navigation button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .dashboard {
+            padding: 20px;
+        }
+        .custom-indicators {
+            display: none; /* Verstecke die benutzerdefinierten Indikatoren standardmäßig */
+            padding: 20px;
+            background-color: #051014; /* Hintergrundfarbe der benutzerdefinierten Indikatoren */
+            color: #fff; /* Textfarbe der benutzerdefinierten Indikatoren */
+        }
+        .custom-indicators input {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+        #fibonacciResult {
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <h1>TradingBot</h1>
+            <button onclick="showDashboard()"><img src="test_images/dashboard_light.png" alt="Dashboard">Dashboard</button>
+            <button onclick="showPredefined()"><img src="test_images/predefined.png" alt="Predefined">Predefined</button>
+            <button onclick="showCustom()"><img src="test_images/custom.png" alt="Custom">Custom</button>
+            <button onclick="showProfile()"><img src="test_images/profile_light.png" alt="Profile">Profile</button>
+            <select onchange="changeAppearanceMode(this.value)">
+                <option value="Light">Light</option>
+                <option value="Dark">Dark</option>
+                <option value="System">System</option>
+            </select>
+        </div>
