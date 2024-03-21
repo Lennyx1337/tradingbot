@@ -58,14 +58,16 @@ async def get_macd_line(request: Request) -> Dict[str, Any]:
     result = {
         'macd_line_values': macd_line_values_json
         }
-
+    
     return result
 
 def get_macd_line_list(minutes:int, short_ema: int, long_ema:int):
     if not short_ema < long_ema:
         raise ValueError(f'The short-ema Value: {short_ema} is not taller than the long-ema Value: {long_ema}')
+    
     data = util_functions.get_latest_data(minutes)
     result = util_functions.calculate_macd(data, short_ema, long_ema)
+
     return result
 
 @app.get('/macd-signal-line')
@@ -75,6 +77,7 @@ async def get_macd_signal_line(request: Request)-> Dict[str, Any]:
     short_ema = requested_data.get('short_ema')
     long_ema = requested_data.get('long_ema')
     signal_window = requested_data.get('signal_window')
+
     if signal_window is None:
         signal_window = 9
 
@@ -95,8 +98,10 @@ async def get_macd_signals_list(request: Request) -> Dict[str, Any]:
     short_ema = requested_data.get('short_ema')
     long_ema = requested_data.get('long_ema')
     signal_window = requested_data.get('signal_window')
+
     if signal_window is None:
         signal_window = 9
+
     macd_line = get_macd_line_list(minutes, short_ema, long_ema)
     macd_signal_line = util_functions.calculate_signal_line(macd_line, signal_window)
 
@@ -114,6 +119,7 @@ async def get_rsi(request: Request)-> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')
     window_days = requested_data.get('window_days')
+    
     if window_days is None:
         window_days = 14
     data = util_functions.get_latest_data(minutes)
@@ -121,4 +127,5 @@ async def get_rsi(request: Request)-> Dict[str, Any]:
     result = {
         'rsi_value': rsi_value
     }
+
     return result

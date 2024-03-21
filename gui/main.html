@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #051014; /* Hintergrundfarbe */
+            background-color: #051014; 
         }
         .container {
             display: grid;
@@ -17,7 +17,7 @@
             height: 100vh;
         }
         .navigation {
-            background-color: #231123; /* Hintergrundfarbe der Navbar */
+            background-color: #231123; 
             padding: 20px;
             border-right: 1px solid #ccc;
             display: flex;
@@ -27,7 +27,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 20px;
-            color: white; /* Textfarbe für den Titel */
+            color: white; 
         }
         .navigation button {
             background-color: transparent;
@@ -37,13 +37,13 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            color: white; /* Textfarbe für die Buttons */
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Hinzugefügter Schatten */
-            order: 1; /* Ändert die Reihenfolge der Button */
+            color: white; 
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); 
+            order: 1; 
         }
         .navigation select {
-            margin-top: auto; /* Setzt die select-Box an das untere Ende der Navbar */
-            order: 2; /* Ändert die Reihenfolge der select-Box */
+            margin-top: auto; 
+            order: 2; 
         }
         .navigation button img {
             width: 20px;
@@ -54,10 +54,10 @@
             padding: 20px;
         }
         .custom-indicators {
-            display: none; /* Verstecke die benutzerdefinierten Indikatoren standardmäßig */
+            display: none; 
             padding: 20px;
-            background-color: #051014; /* Hintergrundfarbe der benutzerdefinierten Indikatoren */
-            color: #fff; /* Textfarbe der benutzerdefinierten Indikatoren */
+            background-color: #051014;
+            color: #fff;
         }
         .custom-indicators input {
             margin-bottom: 10px;
@@ -109,7 +109,10 @@
             <input type="number" id="rsiWindow" name="rsiWindow"><br>
             <button onclick="calculateRSI()">Calculate RSI</button><br>
 
-            <!-- Display the result of Fibonacci retracement -->
+            <!-- RESULTS-Section -->
+            <h1>RSI Result</h1>
+            <div id="rsiResult"></div>
+
             <div id="fibonacciResult"></div>
         </div>
         <div class="dashboard" id="dashboard">
@@ -162,7 +165,6 @@
         }
 
         function changeAppearanceMode(mode) {
-            // Code to change appearance mode
             console.log('Appearance Mode Changed to ' + mode);
         }
 
@@ -206,21 +208,32 @@
         function calculateEMA() {
             var minutes = document.getElementById('emaMinutes').value;
             var period = document.getElementById('emaPeriod').value;
-            // Implement logic to calculate EMA
         }
 
         function calculateMACD() {
             var minutes = document.getElementById('macdMinutes').value;
             var shortEMA = document.getElementById('shortEMA').value;
             var longEMA = document.getElementById('longEMA').value;
-            // Implement logic to calculate MACD
         }
 
         function calculateRSI() {
-            var minutes = document.getElementById('rsiMinutes').value;
-            var windowDays = document.getElementById('rsiWindow').value;
-            // Implement logic to calculate RSI
-        }
+                var minutes = document.getElementById('rsiMinutes').value;
+                var windowDays = document.getElementById('rsiWindow').value;
+                fetch('http://127.0.0.1:5000/rsi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ minutes: minutes, window_days: windowDays })
+                })
+                .then(response => response.json()) //Hier hole ich die json daten aus der response
+                .then(data => displayRSIResult(data)) //Anzeigen der RSI-Ergebnisse
+                .catch(error => console.error('Error:', error));
+            }
+            function displayRSIResult(data) {
+                const rsiResultsElement = document.getElementById('rsiResult');
+                rsiResultsElement.textContent = 'RSI: ${data.rsi}'
+            }
     </script>
 </body>
 </html>

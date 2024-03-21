@@ -108,8 +108,14 @@
             <label for="rsiWindow">RSI Window:</label><br>
             <input type="number" id="rsiWindow" name="rsiWindow"><br>
             <button onclick="calculateRSI()">Calculate RSI</button><br>
+            
+
 
             <!-- Hier muss ich die Anzeige der Ergebenisse implementieren -->
+            <h1>RSI Result</h1>
+            <div id="rsiResult"></div>
+            
+            
             <div id="fibonacciResult"></div>
         </div>
         <script>
@@ -157,10 +163,14 @@
                     },
                     body: JSON.stringify({ minutes: minutes, window_days: windowDays })
                 })
-                .then(response => {
-                    // genauso wie oben
-                })
+                .then(response => response.json()) //Hier hole ich die json daten aus der response
+                .then(data => displayRSIResult(data)) //Anzeigen der RSI-Ergebnisse
                 .catch(error => console.error('Error:', error));
+                    // genauso wie oben
+            }
+            function displayRSIResult(data) {
+                const rsiResultsElement = document.getElementById('rsiResult');
+                rsiResultsElement.textContent = 'RSI: ${data.rsi}'
             }
         </script>
 </body>
