@@ -219,7 +219,7 @@
         function calculateRSI() {
                 var minutes = document.getElementById('rsiMinutes').value;
                 var windowDays = document.getElementById('rsiWindow').value;
-                fetch('http://127.0.0.1:5000/rsi', {
+                fetch('http://0.0.0.0:8000/rsi', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
