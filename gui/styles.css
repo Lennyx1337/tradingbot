@@ -90,7 +90,7 @@ body {
     flex-wrap: wrap;
 }
 .predefined .strategy {
-    flex: 100px;
+    flex: 50px;
     background-color: #333;
     color: white;
     border-radius: 15px;
@@ -160,15 +160,15 @@ body {
     align-items: center; /* Center the chart horizontally */
 }
 .dashboard table {
-    margin-top: 20px;
-    margin-left: 120px;
-    width: 80%;
+    margin-top: 50px;
+    margin-left: 140px;
+    width: 70%;
     border-collapse: separate;
 }
 .dashboard th, .dashboard td {
     border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
+    padding: 6px;
+    text-align: left;
 }
 .dashboard th {
     background-color: #221122;
@@ -187,4 +187,75 @@ body {
 #fibonacciResult {
     color: white;
     margin-top: 10px;
+}
+
+.indicator-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.indicator-box h3 {
+    margin-top: 0;
+}
+
+.indicator-box label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.indicator-box input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.indicator-box button {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #231123;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.indicator-box button:hover {
+    background-color: #2a1e34;
+}
+
+.result {
+    margin-top: 10px;
+    padding: 30px;
+    background-color: #0c0d0e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.indicator-box {
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.selector label, .selector select {
+    display: block;
+    margin-bottom: 10px;
+}
+.mainselect {
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }

@@ -22,35 +22,23 @@
             </select>
         </div>
         <div class="dashboard custom-indicators" id="custom-indicators">
-            <h2>Custom Indicators</h2>
-            <label for="fibMinutes">Fibonacci Retracement Minutes:</label><br>
-            <input type="number" id="fibMinutes" name="fibMinutes"><br>
-            <button onclick="calculateFibRetracement()">Calculate Fibonacci Retracement</button><br>
-
-            <label for="emaMinutes">EMA Minutes:</label><br>
-            <input type="number" id="emaMinutes" name="emaMinutes"><br>
-            <label for="emaPeriod">EMA Period:</label><br>
-            <input type="number" id="emaPeriod" name="emaPeriod"><br>
-            <button onclick="calculateEMA()">Calculate EMA</button><br>
-
-            <label for="macdMinutes">MACD Minutes:</label><br>
-            <input type="number" id="macdMinutes" name="macdMinutes"><br>
-            <label for="shortEMA">Short EMA:</label><br>
-            <input type="number" id="shortEMA" name="shortEMA"><br>
-            <label for="longEMA">Long EMA:</label><br>
-            <input type="number" id="longEMA" name="longEMA"><br>
-            <button onclick="calculateMACD()">Calculate MACD</button><br>
-
-            <label for="rsiMinutes">RSI Minutes:</label><br>
-            <input type="number" id="rsiMinutes" name="rsiMinutes"><br>
-            <label for="rsiWindow">RSI Window:</label><br>
-            <input type="number" id="rsiWindow" name="rsiWindow"><br>
-            <button onclick="calculateRSI()">Calculate RSI</button><br>
-
-            <h1>RSI Result</h1>
-            <div id="rsiResult"></div>
-
-            <div id="fibonacciResult"></div>
+            <h2 class="mainselect">Custom Indicators</h2>
+            <div class="dashboard custom-indicators" id="custom-indicators">
+                <h2>Custom Indicator Calculator</h2>
+                <div class="selector">
+                    <label for="indicatorSelect">Select Indicator:</label>
+                    <select id="indicatorSelect" onchange="showIndicatorInputs()">
+                        <option value="fibonacci">Fibonacci Retracement</option>
+                        <option value="ema">EMA</option>
+                        <option value="macd">MACD</option>
+                        <option value="rsi">RSI</option>
+                    </select>
+                </div>
+                <div class="indicator-box" id="indicatorInputs">
+                    <!-- Inputs for each indicator will be injected here based on selection -->
+                </div>
+            </div>
+  
         </div>
         <div class="dashboard" id="dashboard">
             <div class="tradingview-widget-container">
@@ -62,7 +50,7 @@
             <script type="text/javascript">
                 new TradingView.widget(
                     {
-                        "width": 960,
+                        "width": 1380,
                         "height": 580,
                         "symbol": "BTCUSD",
                         "interval": "D",
@@ -98,7 +86,6 @@
                     <p>Description</p>
                     <p>Low-Risk</p>
                     <p>Adjusting Stop-Loss</p>
-                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('lowRisk')"></i>
                     <div class="description">
                         <p>Description of Low-Risk Strategy</p>
                     </div>
@@ -108,7 +95,6 @@
             <div class="strategy" id="middleRisk">
                 <div class="front">
                     <h2>Middle-Risk</h2>
-                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('middleRisk')"></i>
                     <div class="description">
                         <p>Description of Middle-Risk Strategy</p>
                     </div>
@@ -118,7 +104,6 @@
             <div class="strategy" id="highRisk" >
                 <div class="front">
                     <h2>High-Risk</h2>
-                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('highRisk')"></i>
                     <div class="description">
                         <p>Description of High-Risk Strategy</p>
                     </div>
@@ -286,6 +271,53 @@
             console.log('Deactivate ' + strategyId + ' strategy');
         }
     }
+    function showIndicatorInputs() {
+        const selection = document.getElementById('indicatorSelect').value;
+        const container = document.getElementById('indicatorInputs');
+        container.innerHTML = ''; // Clear previous inputs
+        switch (selection) {
+            case 'fibonacci':
+                container.innerHTML = `
+                    <label for="fibMinutes">Minutes:</label>
+                    <input type="number" id="fibMinutes" name="fibMinutes">
+                    <button onclick="calculateFibRetracement()">Calculate</button>
+                    <div class="result" id="fibonacciResult">Result will appear here...</div>`;
+                break;
+            case 'ema':
+                container.innerHTML = `
+                    <label for="emaMinutes">Minutes:</label>
+                    <input type="number" id="emaMinutes" name="emaMinutes">
+                    <label for="emaPeriod">Period:</label>
+                    <input type="number" id="emaPeriod" name="emaPeriod">
+                    <button onclick="calculateEMA()">Calculate</button>
+                    <div class="result" id="emaResult">Result will appear here...</div>`;
+                break;
+            case 'macd':
+                container.innerHTML = `
+                    <label for="macdMinutes">Minutes:</label>
+                    <input type="number" id="macdMinutes" name="macdMinutes">
+                    <label for="shortEMA">Short EMA:</label>
+                    <input type="number" id="shortEMA" name="shortEMA">
+                    <label for="longEMA">Long EMA:</label>
+                    <input type="number" id="longEMA" name="longEMA">
+                    <button onclick="calculateMACD()">Calculate</button>
+                    <div class="result" id="macdResult">Result will appear here...</div>`;
+                break;
+            case 'rsi':
+                container.innerHTML = `
+                    <label for="rsiMinutes">Minutes:</label>
+                    <input type="number" id="rsiMinutes" name="rsiMinutes">
+                    <label for="rsiWindow">Window:</label>
+                    <input type="number" id="rsiWindow" name="rsiWindow">
+                    <button onclick="calculateRSI()">Calculate</button>
+                    <div class="result" id="rsiResult">Result will appear here...</div>`;
+                break;
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        showIndicatorInputs();  // To load Fibonacci as the default selection on page load
+    });
+
     </script>
 </body>
 </html>
