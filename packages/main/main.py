@@ -1,8 +1,8 @@
 import sys
 import uvicorn
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, Any, List
+from typing import Dict, Any
 from pydantic import BaseModel
 sys.path.append('C:/Users/lenna/LokaleDaten/applied_project/tradingbot/packages')
 sys.path.append('Z:/Python_Projekte/tradingbot/packages')
