@@ -1,7 +1,5 @@
 import pandas as pd
 from sqlalchemy import create_engine
-from flask import jsonify
-import numpy as np
 
 engine = create_engine('sqlite:///Z:/Python_Projekte/tradingbot/packages/getdata/tradingbot.db')
 # engine = create_engine('sqlite:///C:/Users/lenna/LokaleDaten/applied_project/tradingbot/packages/getdata/tradingbot.db')
@@ -41,7 +39,7 @@ def calculate_signals(macd_line: list, signal_line: list)-> list:
             signals.append("Buy")
         else:
             signals.append("Sell")
-    signals = jsonify(signals)
+    signals = signals
     return signals
 
    
@@ -74,6 +72,5 @@ def get_latest_data(num_rows: int)-> list[int]:
     prices = latest_data.values.flatten().astype(int).tolist()
     return prices
 
-print(get_latest_data(20))
 
 calculate_ema(prices=[500,422,399,212], window=14)
