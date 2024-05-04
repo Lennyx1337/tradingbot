@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Trading Bot GUI</title>
     <style>
         body {
@@ -10,6 +11,42 @@
             margin: 0;
             padding: 0;
             background-color: #051014; 
+        }
+        .hidden {
+            display: none;
+        }
+        .description-container {
+        position: relative;
+        }
+
+        .info-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .description-container:hover .info-icon {
+            opacity: 0;
+        }
+
+        .description {
+            opacity: 0;
+            margin-top: 10px;
+            transition: opacity 0.5s ease;
+        }
+
+        .description.active {
+            opacity: 1;
         }
         .container {
             display: grid;
@@ -136,13 +173,15 @@
         }
         .dashboard table{
             margin-top: 20px;
+            margin-left: 120px;
             width: 80%;
-            border-collapse: collapse;
+            border-collapse: separate;
         }
         .dashboard th, .dashboard td {
             border: 1px solid #ccc;
             padding: 8px;
-            text-align: left;
+            text-align: center;
+            
         }
         .dashboard th {
             background-color: #221122;
@@ -204,13 +243,11 @@
             <input type="number" id="rsiWindow" name="rsiWindow"><br>
             <button onclick="calculateRSI()">Calculate RSI</button><br>
 
-            <!-- RESULTS-Section -->
             <h1>RSI Result</h1>
             <div id="rsiResult"></div>
 
             <div id="fibonacciResult"></div>
         </div>
-        
         <div class="dashboard" id="dashboard">
             <div class="tradingview-widget-container">
                 <div id="tradingview_chart">
@@ -250,149 +287,184 @@
                 </tbody>
             </table>
         </div>
-        <div class="predefined" id="predefined">
-            <div class="strategy" id="lowRisk" onclick="toggleStrategy('lowRisk')">
+        <div class="predefined" id="predefined" style="display: none;">
+            <div class="strategy" id="lowRisk">
                 <div class="front">
                     <h2>Low-Risk</h2>
-                    <button class="activate-button">Activate</button>
-                </div>
-                <div class="back">
-                    <p>Description of Low-Risk Strategy</p>
+                    <p>Description</p>
+                    <p>Low-Risk</p>
+                    <p>Adjusting Stop-Loss</p>
+                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('lowRisk')"></i>
+                    <div class="description">
+                        <p>Description of Low-Risk Strategy</p>
+                    </div>
+                    <button class="activate-button" onclick="toggleStrategy('lowRisk')">Activate</button>
                 </div>
             </div>
-            <div class="strategy" id="middleRisk" onclick="toggleStrategy('middleRisk')">
+            <div class="strategy" id="middleRisk">
                 <div class="front">
                     <h2>Middle-Risk</h2>
-                    <button class="activate-button">Activate</button>
-                </div>
-                <div class="back">
-                    <p>Description of Middle-Risk Strategy</p>
+                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('middleRisk')"></i>
+                    <div class="description">
+                        <p>Description of Middle-Risk Strategy</p>
+                    </div>
+                    <button class="activate-button" onclick="toggleStrategy('middleRisk')">Activate</button>
                 </div>
             </div>
-            <div class="strategy" id="highRisk" onclick="toggleStrategy('highRisk')">
+            <div class="strategy" id="highRisk" >
                 <div class="front">
                     <h2>High-Risk</h2>
-                    <button class="activate-button">Activate</button>
-                </div>
-                <div class="back">
-                    <p>Description of High-Risk Strategy</p>
+                    <i class="info-icon fas fa-info-circle" onclick="toggleDescription('highRisk')"></i>
+                    <div class="description">
+                        <p>Description of High-Risk Strategy</p>
+                    </div>
+                    <button class="activate-button" onclick="toggleStrategy('highRisk')">Activate</button>
                 </div>
             </div>
         </div>
-    </div>
-
     <script>
         function showDashboard() {
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
-        }
-        function showPredefined() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('custom-indicators').style.display = 'none';
-            document.getElementById('predefined').style.display = 'flex'; // Hier ändern, um die predefined-Elemente sichtbar zu machen
-        }
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
+        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
 
-        function showCustom() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('custom-indicators').style.display = 'block'; // Show custom indicators section
-        }
+        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('custom-indicators').classList.add('hidden');
+        document.getElementById('predefined').classList.add('hidden');
+    }
 
-        function showProfile() {
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
-        }
+    function showPredefined() {
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
+        document.getElementById('predefined').style.display = 'flex'; // Show predefined section
 
-        function changeAppearanceMode(mode) {
-            console.log('Appearance Mode Changed to ' + mode);
-        }
+        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('custom-indicators').classList.add('hidden');
+    }
 
-        function calculateFibRetracement() {
-            var minutes = document.getElementById('fibMinutes').value;
-            console.log('Sending POST request to server...');
-            fetch('http://127.0.0.1:5000/tradingbot/main/fib', {
+    function showCustom() {
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('custom-indicators').style.display = 'block'; // Show custom indicators section
+        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
+
+        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('predefined').classList.add('hidden');
+    }
+
+    function showProfile() {
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
+        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
+
+        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('custom-indicators').classList.add('hidden');
+    }
+    
+    function toggleDescription(strategyId) {
+        var description = document.getElementById(strategyId).querySelector('.description');
+        var infoIcon = document.getElementById(strategyId).querySelector('.info-icon');
+        description.classList.toggle('active');
+        if (description.classList.contains('active')) {
+            infoIcon.style.display = 'none'; // Verstecke das Info-Symbol, wenn die Beschreibung angezeigt wird
+        } else {
+            infoIcon.style.display = 'block'; // Zeige das Info-Symbol wieder an, wenn die Beschreibung ausgeblendet wird
+        }
+    }
+
+    function changeAppearanceMode(mode) {
+        console.log('Appearance Mode Changed to ' + mode);
+    }
+
+    function calculateFibRetracement() {
+        var minutes = document.getElementById('fibMinutes').value;
+        console.log('Sending POST request to server...');
+        fetch('http://127.0.0.1:5000/tradingbot/main/fib', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ minutes: minutes })
+        })
+        .then(response => {
+            console.log('Response received from server:', response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data received from server:', data);
+            var fibonacciLevels = data['Fibonacci Levels'];
+            if (!fibonacciLevels || fibonacciLevels.length === 0) {
+                console.error('Fibonacci Levels not found or empty');
+                return;
+            }
+            var fibonacciResult = document.getElementById('fibonacciResult');
+            fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
+            fibonacciLevels.forEach(level => {
+                for (var key in level) {
+                    if (level.hasOwnProperty(key)) {
+                        fibonacciResult.innerHTML += key + ': ' + level[key] + '<br>';
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function calculateEMA() {
+        var minutes = document.getElementById('emaMinutes').value;
+        var period = document.getElementById('emaPeriod').value;
+    }
+
+    function calculateMACD() {
+        var minutes = document.getElementById('macdMinutes').value;
+        var shortEMA = document.getElementById('shortEMA').value;
+        var longEMA = document.getElementById('longEMA').value;
+    }
+
+    function calculateRSI() {
+            var minutes = document.getElementById('rsiMinutes').value;
+            var windowDays = document.getElementById('rsiWindow').value;
+            fetch('http://0.0.0.0:8000/rsi', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ minutes: minutes })
+                body: JSON.stringify({ minutes: minutes, window_days: windowDays })
             })
-            .then(response => {
-                console.log('Response received from server:', response);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data received from server:', data);
-                var fibonacciLevels = data['Fibonacci Levels'];
-                if (!fibonacciLevels || fibonacciLevels.length === 0) {
-                    console.error('Fibonacci Levels not found or empty');
-                    return;
-                }
-                var fibonacciResult = document.getElementById('fibonacciResult');
-                fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
-                fibonacciLevels.forEach(level => {
-                    for (var key in level) {
-                        if (level.hasOwnProperty(key)) {
-                            fibonacciResult.innerHTML += key + ': ' + level[key] + '<br>';
-                        }
-                    }
-                });
-            })
+            .then(response => response.json()) //Hier hole ich die json daten aus der response
+            .then(data => displayRSIResult(data)) //Anzeigen der RSI-Ergebnisse
             .catch(error => console.error('Error:', error));
         }
-
-        function calculateEMA() {
-            var minutes = document.getElementById('emaMinutes').value;
-            var period = document.getElementById('emaPeriod').value;
+        function displayRSIResult(data) {
+            const rsiResultsElement = document.getElementById('rsiResult');
+            rsiResultsElement.textContent = 'RSI: ${data.rsi}'
         }
-
-        function calculateMACD() {
-            var minutes = document.getElementById('macdMinutes').value;
-            var shortEMA = document.getElementById('shortEMA').value;
-            var longEMA = document.getElementById('longEMA').value;
+        function toggleStrategy(strategyId) {
+            var strategy = document.getElementById(strategyId);
+            var isActive = strategy.classList.contains('active');
+            if (!isActive) {
+                // Deaktiviere alle anderen Strategien
+                var strategies = document.querySelectorAll('.strategy');
+                strategies.forEach(function(strat) {
+                    strat.classList.remove('active');
+                    strat.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
+                });
+                strategy.classList.add('active');
+                strategy.querySelector('.activate-button').textContent = 'Currently Active'; // Ändere den Text zu 'Currently Active'
+                // Hier Backend-Funktion aufrufen, um die Strategie zu aktivieren
+                console.log('Activate ' + strategyId + ' strategy');
+            } else {
+                strategy.classList.remove('active');
+                strategy.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
+                // Hier Backend-Funktion aufrufen, um die Strategie zu deaktivieren
+                console.log('Deactivate ' + strategyId + ' strategy');
+            }
         }
-
-        function calculateRSI() {
-                var minutes = document.getElementById('rsiMinutes').value;
-                var windowDays = document.getElementById('rsiWindow').value;
-                fetch('http://0.0.0.0:8000/rsi', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ minutes: minutes, window_days: windowDays })
-                })
-                .then(response => response.json()) //Hier hole ich die json daten aus der response
-                .then(data => displayRSIResult(data)) //Anzeigen der RSI-Ergebnisse
-                .catch(error => console.error('Error:', error));
-            }
-            function displayRSIResult(data) {
-                const rsiResultsElement = document.getElementById('rsiResult');
-                rsiResultsElement.textContent = 'RSI: ${data.rsi}'
-            }
-            function toggleStrategy(strategyId) {
-                var strategy = document.getElementById(strategyId);
-                var isActive = strategy.classList.contains('active');
-                if (!isActive) {
-                    // Deaktiviere alle anderen Strategien
-                    var strategies = document.querySelectorAll('.strategy');
-                    strategies.forEach(function(strat) {
-                        strat.classList.remove('active');
-                        strat.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
-                    });
-                    strategy.classList.add('active');
-                    strategy.querySelector('.activate-button').textContent = 'Currently Active'; // Ändere den Text zu 'Currently Active'
-                    // Hier Backend-Funktion aufrufen, um die Strategie zu aktivieren
-                    console.log('Activate ' + strategyId + ' strategy');
-                } else {
-                    strategy.classList.remove('active');
-                    strategy.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
-                    // Hier Backend-Funktion aufrufen, um die Strategie zu deaktivieren
-                    console.log('Deactivate ' + strategyId + ' strategy');
-                }
-            }
     </script>
 </body>
 </html>

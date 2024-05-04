@@ -17,7 +17,7 @@ async def get_fib_retracement(request: Request) -> Dict[str, Any]:
     highest_price = max(data)
 
     fib_levels = util_functions.calculate_fibonacci_retracement(low_price=lowest_price, high_price=highest_price)
-    result = {
+    return {
         'Fibonacci Levels': {
             '0.382': fib_levels[0], 
             '0.500': fib_levels[1], 
@@ -25,7 +25,7 @@ async def get_fib_retracement(request: Request) -> Dict[str, Any]:
             }
         }
     
-    return result
+    # return result
 
 
 @app.get('/ema')
