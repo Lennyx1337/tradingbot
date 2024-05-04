@@ -127,42 +127,34 @@
             </div>
         </div>
     <script>
-        function showDashboard() {
+    function showDashboard() {
         document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
-        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
-
-        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('custom-indicators').style.display = 'none';
+        document.getElementById('predefined').style.display = 'none'; 
         document.getElementById('custom-indicators').classList.add('hidden');
         document.getElementById('predefined').classList.add('hidden');
     }
 
     function showPredefined() {
         document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
-        document.getElementById('predefined').style.display = 'flex'; // Show predefined section
-
-        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('custom-indicators').style.display = 'none'; 
+        document.getElementById('predefined').style.display = 'flex'; 
         document.getElementById('dashboard').classList.add('hidden');
         document.getElementById('custom-indicators').classList.add('hidden');
     }
 
     function showCustom() {
         document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('custom-indicators').style.display = 'block'; // Show custom indicators section
-        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
-
-        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('custom-indicators').style.display = 'block';
+        document.getElementById('predefined').style.display = 'none'; 
         document.getElementById('dashboard').classList.add('hidden');
         document.getElementById('predefined').classList.add('hidden');
     }
 
     function showProfile() {
         document.getElementById('dashboard').style.display = 'none';
-        document.getElementById('custom-indicators').style.display = 'none'; // Hide custom indicators section
-        document.getElementById('predefined').style.display = 'none'; // Hide predefined section
-
-        // Verstecke die Kacheln der anderen Reiter, indem du ihre display-Eigenschaft auf 'none' setzt
+        document.getElementById('custom-indicators').style.display = 'none';
+        document.getElementById('predefined').style.display = 'none';
         document.getElementById('dashboard').classList.add('hidden');
         document.getElementById('custom-indicators').classList.add('hidden');
     }
@@ -172,9 +164,9 @@
         var infoIcon = document.getElementById(strategyId).querySelector('.info-icon');
         description.classList.toggle('active');
         if (description.classList.contains('active')) {
-            infoIcon.style.display = 'none'; // Verstecke das Info-Symbol, wenn die Beschreibung angezeigt wird
+            infoIcon.style.display = 'none'; 
         } else {
-            infoIcon.style.display = 'block'; // Zeige das Info-Symbol wieder an, wenn die Beschreibung ausgeblendet wird
+            infoIcon.style.display = 'block'; 
         }
     }
 
@@ -278,20 +270,19 @@
         var strategy = document.getElementById(strategyId);
         var isActive = strategy.classList.contains('active');
         if (!isActive) {
-            // Deaktiviere alle anderen Strategien
             var strategies = document.querySelectorAll('.strategy');
             strategies.forEach(function(strat) {
                 strat.classList.remove('active');
-                strat.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
+                strat.querySelector('.activate-button').textContent = 'Activate'; 
             });
             strategy.classList.add('active');
-            strategy.querySelector('.activate-button').textContent = 'Currently Active'; // Ändere den Text zu 'Currently Active'
-            // Hier Backend-Funktion aufrufen, um die Strategie zu aktivieren
+            strategy.querySelector('.activate-button').textContent = 'Currently Active'; 
+            // Hier Backend-Funktion aufrufen
             console.log('Activate ' + strategyId + ' strategy');
         } else {
             strategy.classList.remove('active');
-            strategy.querySelector('.activate-button').textContent = 'Activate'; // Ändere den Text zurück zu 'Activate'
-            // Hier Backend-Funktion aufrufen, um die Strategie zu deaktivieren
+            strategy.querySelector('.activate-button').textContent = 'Activate';
+            // Hier Backend-Funktion aufrufen
             console.log('Deactivate ' + strategyId + ' strategy');
         }
     }
