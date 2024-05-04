@@ -28,7 +28,7 @@ async def get_fib_retracement(request: Request) -> Dict[str, Any]:
     # return result
 
 
-@app.get('/ema')
+@app.post('/ema')
 async def get_ema(request: Request)-> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')
@@ -44,7 +44,7 @@ async def get_ema(request: Request)-> Dict[str, Any]:
     return result
 
 
-@app.get('/macd-line')
+@app.post('/macd-line')
 async def get_macd_line(request: Request) -> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')
@@ -71,7 +71,7 @@ def get_macd_line_list(minutes:int, short_ema: int, long_ema:int):
 
     return result
 
-@app.get('/macd-signal-line')
+@app.post('/macd-signal-line')
 async def get_macd_signal_line(request: Request)-> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')
@@ -92,7 +92,7 @@ async def get_macd_signal_line(request: Request)-> Dict[str, Any]:
     return result
 
 
-@app.get('/macd-signals-list')
+@app.post('/macd-signals-list')
 async def get_macd_signals_list(request: Request) -> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')
@@ -115,7 +115,7 @@ async def get_macd_signals_list(request: Request) -> Dict[str, Any]:
 
     return result 
 
-@app.get('/rsi')
+@app.post('/rsi')
 async def get_rsi(request: Request)-> Dict[str, Any]:
     requested_data = await request.get_json()
     minutes = requested_data.get('minutes')

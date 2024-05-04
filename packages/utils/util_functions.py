@@ -26,7 +26,7 @@ def calculate_ema(prices: list, window: int)->list:
 def calculate_macd(prices: list, short_ema_window: int, long_ema_window: int)->list:
     short_ema = calculate_ema(prices, short_ema_window)
     long_ema = calculate_ema(prices, long_ema_window)
-    macd_line = jsonify([short - long for short, long in zip(short_ema, long_ema)])
+    macd_line = [short - long for short, long in zip(short_ema, long_ema)]
     return macd_line
 
 
@@ -71,9 +71,9 @@ def get_latest_data(num_rows: int)-> list[int]:
     global engine
     query = f"SELECT Close FROM BTCUSDT ORDER BY Time DESC LIMIT {num_rows}"
     latest_data = pd.read_sql(query, engine)
-    prices = jsonify(latest_data.values.flatten().astype(int).tolist())
+    prices = latest_data.values.flatten().astype(int).tolist()
     return prices
 
-
+print(get_latest_data(20))
 
 calculate_ema(prices=[500,422,399,212], window=14)
