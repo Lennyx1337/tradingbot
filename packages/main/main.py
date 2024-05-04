@@ -58,7 +58,9 @@ async def get_fib_retracement(request: FibonacciRequest) -> Dict[str, Any]:
 @app.post('/ema')
 async def get_ema(request: EMARequest) -> Dict[str, Any]:
     data = util_functions.get_latest_data(request.minutes)
-    ema_values = util_functions.calculate_ema(data, request.period)
+    if not data:
+        raise HTTPException(status_code=404, detail="No data found.")
+    ema_values = util_functions.calculate_ema(data, request.ema)
     return {'ema_values': [{'index': i, 'value': value} for i, value in enumerate(ema_values)]}
 
 @app.post('/macd-line')

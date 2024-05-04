@@ -6,7 +6,13 @@ base_url = 'http://localhost:8000'
 def test_ema():
     data = {"minutes": 5, "ema": 10}
     response = requests.post(f'{base_url}/ema', json=data)
-    print("EMA Response:", response.json())
+    if response.status_code == 200:
+        try:
+            print("EMA Response:", response.json())
+        except ValueError:
+            print("Failed to decode JSON from response:", response.text)
+    else:
+        print("Failed with status code:", response.status_code, "Response body:", response.text)
 
 # Test für den Fibonacci-Retracement-Endpunkt
 def test_fibonacci():
