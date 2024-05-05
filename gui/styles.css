@@ -234,7 +234,11 @@ body {
     background-color: #0c0d0e;
     border: 1px solid #ccc;
     border-radius: 5px;
+    max-height: 150px; /* Adjust based on your preference */
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden;
 }
+
 .dashboard {
     display: flex;
     justify-content: center;

@@ -161,7 +161,7 @@
 
     function calculateFibRetracement() {
         var minutes = document.getElementById('fibMinutes').value;
-        fetch('http://127.0.0.1:8000/fibonacci', { 
+        fetch('http://127.0.0.1:8000/fibonacci', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -172,15 +172,83 @@
         .then(data => {
             var fibonacciResult = document.getElementById('fibonacciResult');
             fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
-            Object.keys(data).forEach(key => {
-                fibonacciResult.innerHTML += key + ': ' + data[key] + '<br>';
-            });
+            if (data['Fibonacci Levels']) {
+                Object.keys(data['Fibonacci Levels']).forEach(key => {
+                    fibonacciResult.innerHTML += key + ': ' + data['Fibonacci Levels'][key].toFixed(3) + '<br>';
+                });
+            }
         })
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to calculate Fibonacci retracement: ' + error.message);
         });
     }
+
+    // function calculateFibRetracement() {
+    //     var minutes = document.getElementById('fibMinutes').value;
+    //     fetch('http://127.0.0.1:8000/fibonacci', { 
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ minutes: minutes })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         var fibonacciResult = document.getElementById('fibonacciResult');
+    //         fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
+    //         Object.keys(data).forEach(key => {
+    //             fibonacciResult.innerHTML += key + ': ' + data[key] + '<br>';
+    //         });
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert('Failed to calculate Fibonacci retracement: ' + error.message);
+    //     });
+    // }
+
+    // function calculateEMA() {
+    //     var minutes = document.getElementById('emaMinutes').value;
+    //     var period = document.getElementById('emaPeriod').value;
+    //     fetch('http://127.0.0.1:8000/ema', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ minutes: minutes, period: period })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log('EMA data:', data);
+    //         alert('EMA Calculated successfully!');
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert('Failed to calculate EMA: ' + error.message);
+    //     });
+    // }
+
+    // function calculateMACD() {
+    //     var minutes = document.getElementById('macdMinutes').value;
+    //     var shortEMA = document.getElementById('shortEMA').value;
+    //     var longEMA = document.getElementById('longEMA').value;
+    //     fetch('http://127.0.0.1:8000/macd-line', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ minutes: minutes, short_ema: shortEMA, long_ema: longEMA })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log('MACD data:', data);
+    //         alert('MACD Calculated successfully!');
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert('Failed to calculate MACD: ' + error.message);
+    //     });
+    // }
 
     function calculateEMA() {
         var minutes = document.getElementById('emaMinutes').value;
@@ -195,13 +263,19 @@
         .then(response => response.json())
         .then(data => {
             console.log('EMA data:', data);
-            alert('EMA Calculated successfully!');
+            var emaResult = document.getElementById('emaResult');
+            emaResult.innerHTML = '<strong>EMA Values:</strong><br><ul>';
+            data.ema_values.forEach(item => {
+                emaResult.innerHTML += `<li>Index ${item.index}: ${item.value.toFixed(2)}</li>`;
+            });
+            emaResult.innerHTML += '</ul>';
         })
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to calculate EMA: ' + error.message);
         });
     }
+
 
     function calculateMACD() {
         var minutes = document.getElementById('macdMinutes').value;
@@ -217,7 +291,12 @@
         .then(response => response.json())
         .then(data => {
             console.log('MACD data:', data);
-            alert('MACD Calculated successfully!');
+            var macdResult = document.getElementById('macdResult');
+            macdResult.innerHTML = '<strong>MACD Line Values:</strong><br><ul>';
+            data.macd_line_values.forEach(item => {
+                macdResult.innerHTML += `<li>Index ${item.index}: ${item.value.toFixed(3)}</li>`;
+            });
+            macdResult.innerHTML += '</ul>';
         })
         .catch(error => {
             console.error('Error:', error);

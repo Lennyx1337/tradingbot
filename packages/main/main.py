@@ -27,7 +27,7 @@ class FibonacciRequest(BaseModel):
 
 class EMARequest(BaseModel):
     minutes: int
-    ema: int
+    period: int
 
 class MACDRequest(BaseModel):
     minutes: int
@@ -60,7 +60,7 @@ async def get_ema(request: EMARequest) -> Dict[str, Any]:
     data = util_functions.get_latest_data(request.minutes)
     if not data:
         raise HTTPException(status_code=404, detail="No data found.")
-    ema_values = util_functions.calculate_ema(data, request.ema)
+    ema_values = util_functions.calculate_ema(data, request.period)
     return {'ema_values': [{'index': i, 'value': value} for i, value in enumerate(ema_values)]}
 
 @app.post('/macd-line')
