@@ -184,72 +184,6 @@
         });
     }
 
-    // function calculateFibRetracement() {
-    //     var minutes = document.getElementById('fibMinutes').value;
-    //     fetch('http://127.0.0.1:8000/fibonacci', { 
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ minutes: minutes })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         var fibonacciResult = document.getElementById('fibonacciResult');
-    //         fibonacciResult.innerHTML = '<strong>Fibonacci Levels:</strong><br>';
-    //         Object.keys(data).forEach(key => {
-    //             fibonacciResult.innerHTML += key + ': ' + data[key] + '<br>';
-    //         });
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert('Failed to calculate Fibonacci retracement: ' + error.message);
-    //     });
-    // }
-
-    // function calculateEMA() {
-    //     var minutes = document.getElementById('emaMinutes').value;
-    //     var period = document.getElementById('emaPeriod').value;
-    //     fetch('http://127.0.0.1:8000/ema', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ minutes: minutes, period: period })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log('EMA data:', data);
-    //         alert('EMA Calculated successfully!');
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert('Failed to calculate EMA: ' + error.message);
-    //     });
-    // }
-
-    // function calculateMACD() {
-    //     var minutes = document.getElementById('macdMinutes').value;
-    //     var shortEMA = document.getElementById('shortEMA').value;
-    //     var longEMA = document.getElementById('longEMA').value;
-    //     fetch('http://127.0.0.1:8000/macd-line', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ minutes: minutes, short_ema: shortEMA, long_ema: longEMA })
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log('MACD data:', data);
-    //         alert('MACD Calculated successfully!');
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         alert('Failed to calculate MACD: ' + error.message);
-    //     });
-    // }
-
     function calculateEMA() {
         var minutes = document.getElementById('emaMinutes').value;
         var period = document.getElementById('emaPeriod').value;
@@ -393,9 +327,18 @@
                 break;
         }
     }
+    function showDashboard() {
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('custom-indicators').style.display = 'none';
+        document.getElementById('predefined').style.display = 'none';
+    }
     document.addEventListener('DOMContentLoaded', function() {
         showIndicatorInputs();  // To load Fibonacci as the default selection on page load
     });
+    document.addEventListener('DOMContentLoaded', function() {
+        showDashboard(); // This function should be defined to show the dashboard and hide other sections.
+    });
+
 
     </script>
 </body>
