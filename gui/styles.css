@@ -263,3 +263,58 @@ body {
     display: flex;
     align-items: center;
 }
+
+.strategy-builder {
+    width: 80%; /* Adjust width as needed */
+    margin: 20px auto; /* Center the box horizontally */
+    padding: 20px;
+    background-color: #000000; /* Light grey background */
+    border: 1px solid #ddd; /* Light grey border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+.strategy-builder h2 {
+    color: #333; /* Dark grey text */
+    text-align: center;
+}
+
+.strategy-builder div {
+    margin-top: 10px;
+    padding: 30px;
+}
+
+.strategy-builder button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #221122; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.strategy-builder button:hover {
+    background-color: #2a1e34; /* Darker blue on hover */
+}
+
+.strategy-builder p {
+    font-size: 18px;
+    color: #ffffff; /* Medium grey text */
+    line-height: 2.5;
+}
+
+.question {
+    display: block;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 3;
+    max-height: 10;
+    overflow: visible;
+}
+
+.question.show {
+    display: block;
+    opacity: 1;
+    max-height: 300px; /* Adjust based on content */
+}

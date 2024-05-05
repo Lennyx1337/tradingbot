@@ -23,6 +23,29 @@
         </div>
         <div class="dashboard custom-indicators" id="custom-indicators">
             <h2 class="mainselect">Custom Indicators</h2>
+            <h2 class="mainselect">Build Your Trading Strategy</h2>
+            <div class="strategy-builder" id="strategyBuilder">
+                <div id="question1" class="question mainselect">
+                    <p>Do you want to buy or sell?</p>
+                    <button onclick="saveAnswer('buy', 1)">Buy</button>
+                    <button onclick="saveAnswer('sell', 1)">Sell</button>
+                </div>
+                <div id="question2" class="question" style="display:none;">
+                    <p>On how many last minutes should the strategy build?</p>
+                    <input type="number" id="minutes" placeholder="Enter minutes">
+                    <button onclick="saveAnswer(null, 2)">Save</button>
+                </div>
+                <div id="question3" class="question" style="display:none;">
+                    <p>EMA:</p>
+                    <input type="number" id="emaThreshold" placeholder="Enter threshold">
+                    <button onclick="saveAnswer('True', 3)">Greater Than</button>
+                    <button onclick="saveAnswer('False', 3)">Smaller Than</button>
+                </div>
+                <!-- Add other questions similarly -->
+                <div id="submitStrategy" style="display:none;">
+                    <button onclick="submitStrategy()">Submit Strategy</button>
+                </div>
+            </div>
             <div class="dashboard custom-indicators" id="custom-indicators">
                 <h2>Custom Indicator Calculator</h2>
                 <div class="selector">
@@ -332,6 +355,100 @@
         document.getElementById('custom-indicators').style.display = 'none';
         document.getElementById('predefined').style.display = 'none';
     }
+
+    var currentQuestion = 1;
+    var strategy = {};
+
+    // function saveAnswer(answer, questionNumber) {
+    //     if (answer) {
+    //         strategy[`question${questionNumber}`] = answer;
+    //     } else {
+    //         // For input fields
+    //         var inputId = questionNumber === 2 ? 'minutes' : 'emaThreshold';
+    //         strategy[`question${questionNumber}`] = document.getElementById(inputId).value;
+    //     }
+    //     document.getElementById(`question${currentQuestion}`).style.display = 'none';
+    //     currentQuestion++;
+    //     if (currentQuestion <= 6) {
+    //         document.getElementById(`question${currentQuestion}`).style.display = 'block';
+    //     } else {
+    //         document.getElementById('submitStrategy').style.display = 'block';
+    //     }
+    // }
+
+    function saveAnswer(answer, questionNumber) {
+        // Assuming `totalQuestions` is defined and correctly set
+        if (answer !== null) {
+            strategy[`question${questionNumber}`] = answer;
+        } else {
+            // For input fields
+            var inputId = (questionNumber === 2) ? 'minutes' :
+                        (questionNumber === 3 || questionNumber === 4 || questionNumber === 5) ? 'emaThreshold' : ''; // Adjust as needed
+            if(inputId) {
+                strategy[`question${questionNumber}`] = document.getElementById(inputId).value;
+            }
+        }
+
+        // Manage display transitions
+        var currentQuestionElement = document.getElementById(`question${questionNumber}`);
+        var nextQuestionNumber = questionNumber + 1;
+        var nextQuestionElement = document.getElementById(`question${nextQuestionNumber}`);
+
+        if (currentQuestionElement) currentQuestionElement.style.display = 'none';
+        if (nextQuestionElement) {
+            nextQuestionElement.style.display = 'block';
+        } else {
+            // If there's no next question, show the submit button or handle the end of the questionnaire
+            document.getElementById('submitStrategy').style.display = 'block';
+        }
+    }
+    function setupQuestions() {
+        const totalQuestions = 6;
+        let currentQuestion = 1;
+        document.getElementById(`question${currentQuestion}`).style.display = 'block'; // Initially show the first question
+
+        window.saveAnswer = function(answer, questionNumber) {
+            // Save the answer
+            if (answer !== null) { // Handling button clicks for non-input questions
+                strategy[`question${questionNumber}`] = answer;
+            } else { // Handling save for input questions
+                let inputField = questionNumber === 2 ? 'minutes' : 'emaThreshold';
+                strategy[`question${questionNumber}`] = document.getElementById(inputField).value;
+            }
+
+            // Transition to the next question
+            if (currentQuestion < totalQuestions) {
+                document.getElementById(`question${currentQuestion}`).style.display = 'none';
+                currentQuestion++;
+                document.getElementById(`question${currentQuestion}`).style.display = 'block';
+            } else {
+                document.getElementById(`question${currentQuestion}`).style.display = 'none';
+                document.getElementById('submitStrategy').style.display = 'block';
+            }
+        };
+    }
+
+    function submitStrategy() {
+        console.log("Submitting strategy:", JSON.stringify(strategy));
+        fetch('http://127.0.0.1:8000/submit-strategy', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(strategy)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Strategy submission response:', data);
+            alert('Strategy submitted successfully!');
+        })
+        .catch(error => {
+            console.error('Error submitting strategy:', error);
+            alert('Failed to submit strategy: ' + error.message);
+        });
+    }
+
+
     document.addEventListener('DOMContentLoaded', function() {
         showIndicatorInputs();  // To load Fibonacci as the default selection on page load
     });
