@@ -359,37 +359,16 @@
     var currentQuestion = 1;
     var strategy = {};
 
-    // function saveAnswer(answer, questionNumber) {
-    //     if (answer) {
-    //         strategy[`question${questionNumber}`] = answer;
-    //     } else {
-    //         // For input fields
-    //         var inputId = questionNumber === 2 ? 'minutes' : 'emaThreshold';
-    //         strategy[`question${questionNumber}`] = document.getElementById(inputId).value;
-    //     }
-    //     document.getElementById(`question${currentQuestion}`).style.display = 'none';
-    //     currentQuestion++;
-    //     if (currentQuestion <= 6) {
-    //         document.getElementById(`question${currentQuestion}`).style.display = 'block';
-    //     } else {
-    //         document.getElementById('submitStrategy').style.display = 'block';
-    //     }
-    // }
-
     function saveAnswer(answer, questionNumber) {
-        // Assuming `totalQuestions` is defined and correctly set
         if (answer !== null) {
             strategy[`question${questionNumber}`] = answer;
         } else {
-            // For input fields
             var inputId = (questionNumber === 2) ? 'minutes' :
                         (questionNumber === 3 || questionNumber === 4 || questionNumber === 5) ? 'emaThreshold' : ''; // Adjust as needed
             if(inputId) {
                 strategy[`question${questionNumber}`] = document.getElementById(inputId).value;
             }
         }
-
-        // Manage display transitions
         var currentQuestionElement = document.getElementById(`question${questionNumber}`);
         var nextQuestionNumber = questionNumber + 1;
         var nextQuestionElement = document.getElementById(`question${nextQuestionNumber}`);
@@ -398,18 +377,17 @@
         if (nextQuestionElement) {
             nextQuestionElement.style.display = 'block';
         } else {
-            // If there's no next question, show the submit button or handle the end of the questionnaire
             document.getElementById('submitStrategy').style.display = 'block';
         }
     }
     function setupQuestions() {
         const totalQuestions = 6;
         let currentQuestion = 1;
-        document.getElementById(`question${currentQuestion}`).style.display = 'block'; // Initially show the first question
+        document.getElementById(`question${currentQuestion}`).style.display = 'block'; // Initially show first question
 
         window.saveAnswer = function(answer, questionNumber) {
             // Save the answer
-            if (answer !== null) { // Handling button clicks for non-input questions
+            if (answer !== null) { 
                 strategy[`question${questionNumber}`] = answer;
             } else { // Handling save for input questions
                 let inputField = questionNumber === 2 ? 'minutes' : 'emaThreshold';
@@ -450,10 +428,10 @@
 
 
     document.addEventListener('DOMContentLoaded', function() {
-        showIndicatorInputs();  // To load Fibonacci as the default selection on page load
+        showIndicatorInputs();  // load Fibonacci as the default selection on page load
     });
     document.addEventListener('DOMContentLoaded', function() {
-        showDashboard(); // This function should be defined to show the dashboard and hide other sections.
+        showDashboard(); 
     });
 
 
