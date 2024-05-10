@@ -8,19 +8,20 @@ our_msg = json.dumps({'method': 'SUBSCRIBE', 'params': ['btcusdt@ticker'], 'id':
 df = pd.DataFrame()
 in_position = False
 buy_orders, sell_orders = [], []
+total_profit = 0
 
 def on_open(ws):
     print("WebSocket Verbindung hergestellt")
     ws.send(our_msg)
 
 def on_message(ws, message):
-    global df, in_position, buy_orders, sell_orders
+    global df, in_position, buy_orders, sell_orders, total_profit
     data = json.loads(message)
     if 's' in data and data['s'] == 'BTCUSDT':
         df['Time'] = pd.to_datetime(data['E'], unit='ms')
-        data = pd.DataFrame({'price':float(data['c'])}, index=[pd.to_datetime(data['E'], unit='ms').dt.tz_localize('UTC').dt.tz_convert('Europe/Berlin')])
+        data = pd.DataFrame({'price':float(data['c'])}, index=[pd.to_datetime(data['E'], unit='ms').tz_localize('UTC').tz_convert('Europe/Berlin')])
         df = pd.concat([df, data], axis=0)
-        print(df)
+        # print(df)
         df = df.tail(5)
         last_price = df.tail(1).price.values[0]
         sma_5 = df.price.rolling(5).mean().tail(1).values[0]
@@ -31,7 +32,11 @@ def on_message(ws, message):
         if in_position and sma_5 > last_price:
             print(f'sold for '+ str(last_price))
             print(f'profit: {str(last_price-buy_orders[-1])}')
+            total_profit = total_profit + float(last_price-buy_orders[-1])
+            total_profit = round(total_profit, 2)
+            print(f'Total profit of run: {total_profit} $')
             sell_orders.append(last_price)
+            in_position = False
 
 def on_error(ws, error):
     print(f"Fehler: {error}")

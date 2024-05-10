@@ -1,6 +1,6 @@
 import sys
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, Any
 from pydantic import BaseModel
@@ -34,6 +34,34 @@ class MACDRequest(BaseModel):
     short_ema: int
     long_ema: int
     signal_window: int = 9
+
+class WebSocketManager:
+    def __init__(self):
+        self.active_connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def send_message(self, message: str):
+        if self.connection:
+            await self.connection.send_text(message)
+
+manager = WebSocketManager()
+
+@app.websocket('/ws_low_risk')
+async def start_low_risk_strat(websocket:WebSocket):
+    await manager.connect(websocket=WebSocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            if 
+    except WebSocketDisconnect:
+        manager.disconnect()
+
 
 
 def get_macd_line_list(minutes:int, short_ema: int, long_ema:int):
