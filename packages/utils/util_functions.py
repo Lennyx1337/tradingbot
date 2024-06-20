@@ -72,5 +72,3 @@ def get_latest_data(num_rows: int)-> list[int]:
     prices = latest_data.values.flatten().astype(int).tolist()
     return prices
 
-
-calculate_ema(prices=[500,422,399,212], window=14)

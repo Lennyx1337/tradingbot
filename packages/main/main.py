@@ -50,17 +50,16 @@ class WebSocketManager:
         if self.connection:
             await self.connection.send_text(message)
 
-manager = WebSocketManager()
+# manager = WebSocketManager()
 
-@app.websocket('/ws_low_risk')
-async def start_low_risk_strat(websocket:WebSocket):
-    await manager.connect(websocket=WebSocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            if 
-    except WebSocketDisconnect:
-        manager.disconnect()
+# @app.websocket('/ws_low_risk')
+# async def start_low_risk_strat(websocket:WebSocket):
+#     await manager.connect(websocket=WebSocket)
+#     try:
+#         while True:
+#             await websocket.receive_text()        
+#     except WebSocketDisconnect:
+#         manager.disconnect()
 
 
 
@@ -123,7 +122,6 @@ async def get_rsi(request: RSIRequest):
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid input for window_days. Must be an integer.")
     except Exception as e:
-        # Generelle Fehlerbehandlung
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == '__main__':
